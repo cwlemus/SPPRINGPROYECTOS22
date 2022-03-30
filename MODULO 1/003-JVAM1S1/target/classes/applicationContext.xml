@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- configura la factura de spring para construir objetos de FacturaIva -->
+	<bean id="estudiante1"
+		class="udb.net.mod1.regacad.spring.EstudianteCep">
+		<property name="nombre" value="carlos" />
+		<property name="apellido" value="rosales" />
+		<property name="cum" value="8.21" />
+		<property name="cuotaMensual" value="65.00" />
+	</bean>
+	<bean id="estudiante2"
+		class="udb.net.mod1.regacad.spring.EstudianteColP">
+		<property name="nombre" value="jose" />
+		<property name="apellido" value="perez" />
+		<property name="cum" value="9.21" />
+		<property name="cuotaMensual" value="75.00" />
+	</bean>
+	<bean id="registroEstudiante"
+		  class="udb.net.mod1.regacad.spring.RegistroAcad">
+		  <property name="idRegistro" value="1" />
+		  <property name="fechaRegistro">
+		  	<bean class="java.util.Date" factory-bean="dateFormat" factory-method="parse">
+		  		<constructor-arg value="2010-01-31"></constructor-arg>
+		  	</bean>
+		  </property>
+		  <property name="estudiante" ref="estudiante1"></property>
+	</bean>
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd"></constructor-arg>
+	</bean>
+</beans>
