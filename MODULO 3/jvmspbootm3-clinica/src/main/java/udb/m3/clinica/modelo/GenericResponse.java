@@ -8,18 +8,15 @@ public class GenericResponse<T> {
 	public GenericResponse() {
 		// TODO Auto-generated constructor stub
 	}
-
-		
 	
+	
+
 	public GenericResponse(Integer code, String message, T response) {
 		super();
 		this.code = code;
 		this.message = message;
 		this.response = response;
 	}
-
-
-
 
 
 
@@ -39,19 +36,13 @@ public class GenericResponse<T> {
 		this.message = message;
 	}
 
-
 	public T getResponse() {
 		return response;
 	}
 
-
 	public void setResponse(T response) {
 		this.response = response;
 	}
-	
-	
-	
-	
 	
 	
 }

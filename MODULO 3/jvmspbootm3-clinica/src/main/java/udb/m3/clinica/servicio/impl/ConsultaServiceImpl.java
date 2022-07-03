@@ -12,10 +12,12 @@ import udb.m3.clinica.servicio.IConsultaService;
 @Service
 public class ConsultaServiceImpl implements IConsultaService {
 
+	
 	private final IConsultaRepo consultaRepo;
 	
 	@Autowired
 	public ConsultaServiceImpl( IConsultaRepo consultaRepo) {
+		// TODO Auto-generated constructor stub
 		this.consultaRepo=consultaRepo;
 	}
 	

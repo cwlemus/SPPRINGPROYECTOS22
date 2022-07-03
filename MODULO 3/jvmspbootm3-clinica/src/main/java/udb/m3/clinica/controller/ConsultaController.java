@@ -1,8 +1,8 @@
 package udb.m3.clinica.controller;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,43 +11,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import udb.m3.clinica.modelo.Consulta;
+import udb.m3.clinica.modelo.DetalleConsulta;
 import udb.m3.clinica.modelo.GenericResponse;
 import udb.m3.clinica.servicio.IConsultaService;
 
 @RestController
 @RequestMapping("/consulta")
 public class ConsultaController {
-
-	private final IConsultaService consultaService;
+	private final IConsultaService servicioConsulta;
 	
-	@Autowired
-	public ConsultaController( IConsultaService consultaService) {
+	public ConsultaController(IConsultaService servicioConsulta) {
 		// TODO Auto-generated constructor stub
-		this.consultaService=consultaService;
+		this.servicioConsulta = servicioConsulta;
 	}
 	
 	@PostMapping
 	public ResponseEntity<GenericResponse<Consulta>> guardarConsulta(@RequestBody Consulta consulta){
+		GenericResponse<Consulta> resp = new GenericResponse<Consulta>(0,"fallo - no pudo almacenarse la consulta",consulta);
+		Optional<Consulta> opt = Optional.ofNullable(consulta);
+		Consulta conSelect= new Consulta();
 		HttpStatus http = HttpStatus.INTERNAL_SERVER_ERROR;
-		GenericResponse<Consulta> resp = new GenericResponse<Consulta>(0,"Fallo - No puedo almacenarse consulta",consulta);
+		System.out.println(consulta);
 		
-		Optional<Consulta> opt=Optional.of(consulta);
 		if(opt.isPresent()) {
 			if(consulta.getDetalleConsulta().size()>0) {
-				//consulta.getDetalleConsulta().stream().peek(d->d.setConsulta(consulta)).collect(Collectors.toList());
+				consulta.getDetalleConsulta()
+				.stream()
+				.peek(dt->dt.setConsulta(consulta))
+				.collect(Collectors.toList());
 				try {
-					consultaService.registrar(consulta);
+					conSelect=servicioConsulta.registrar(consulta);
 					resp.setCode(1);
-					resp.setMessage("Exito - Consulta almacenada correctamente");
-					http=HttpStatus.OK;					
+					resp.setMessage("Exito - Se almaceno Consulta");
+					resp.setResponse(conSelect);
 				} catch (Exception e) {
-					// TODO: handle exception					
+					// TODO: handle exception
+					resp.setMessage("fallo - error: "+e.getMessage());
 				}
-				
 			}
 		}
-		return new ResponseEntity<GenericResponse<Consulta>>(resp,http);
-		
+		System.out.println(resp);
+		return new ResponseEntity<GenericResponse<Consulta>>(resp,HttpStatus.OK);
 	}
-	
 }

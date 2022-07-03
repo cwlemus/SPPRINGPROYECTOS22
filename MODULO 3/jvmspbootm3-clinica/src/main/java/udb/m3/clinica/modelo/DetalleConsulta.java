@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="detalle_consulta")
 public class DetalleConsulta {
@@ -23,6 +25,7 @@ public class DetalleConsulta {
 	@ManyToOne
 	@JoinColumn(name="id_consulta",nullable=false,
 	foreignKey=@ForeignKey(name="FK_consulta_detalle"))
+	@JsonBackReference
 	private Consulta consulta;
 	
 	private String diagnostico;
@@ -33,10 +36,11 @@ public class DetalleConsulta {
 	joinColumns = @JoinColumn(name="id_detalle_consulta",referencedColumnName="idDetalleConsulta"),
 	inverseJoinColumns = @JoinColumn(name="id_examen",referencedColumnName="idExamen"))
 	private List<Examen> examenes;
-
+	
 	public DetalleConsulta() {
 		// TODO Auto-generated constructor stub
 	}
+
 	public DetalleConsulta(Integer idDetalleConsulta, Consulta consulta, String diagnostico, String tratamiento,
 			List<Examen> examenes) {
 		super();
@@ -46,38 +50,46 @@ public class DetalleConsulta {
 		this.tratamiento = tratamiento;
 		this.examenes = examenes;
 	}
+
 	public Integer getIdDetalleConsulta() {
 		return idDetalleConsulta;
 	}
+
 	public void setIdDetalleConsulta(Integer idDetalleConsulta) {
 		this.idDetalleConsulta = idDetalleConsulta;
 	}
+
 	public Consulta getConsulta() {
 		return consulta;
 	}
+
 	public void setConsulta(Consulta consulta) {
 		this.consulta = consulta;
 	}
+
 	public String getDiagnostico() {
 		return diagnostico;
 	}
+
 	public void setDiagnostico(String diagnostico) {
 		this.diagnostico = diagnostico;
 	}
+
 	public String getTratamiento() {
 		return tratamiento;
 	}
+
 	public void setTratamiento(String tratamiento) {
 		this.tratamiento = tratamiento;
 	}
+
 	public List<Examen> getExamenes() {
 		return examenes;
 	}
+
 	public void setExamenes(List<Examen> examenes) {
 		this.examenes = examenes;
-	}	
-	
-	
+	}
 	
 	
 	

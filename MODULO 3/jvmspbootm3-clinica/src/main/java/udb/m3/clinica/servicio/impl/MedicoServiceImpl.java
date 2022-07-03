@@ -1,7 +1,6 @@
 package udb.m3.clinica.servicio.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,27 +41,26 @@ public class MedicoServiceImpl implements IMedicoService {
 	@Override
 	public Medico leerPorId(Integer id) {
 		// TODO Auto-generated method stub
-		Optional<Medico> opMed= this.servicioMedico.findById(id);
-		if(opMed.isPresent()) {
-			return opMed.get();
-		}else {
-			return null;
-		}
-		
+		return this.servicioMedico.findById(id).get();
 	}
 
 	@Override
 	public boolean eliminar(Medico obj) {
 		// TODO Auto-generated method stub
-		try {			
+		try {
 			this.servicioMedico.delete(obj);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
+			
 			return false;
 		}
 		
-		
+	}
+	@Override
+	public List<Medico> buscarMedico(String filtro) {
+		// TODO Auto-generated method stub		
+		return  this.servicioMedico.buscarMedico(filtro) ;
 	}
 
 }

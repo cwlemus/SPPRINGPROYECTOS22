@@ -1,6 +1,5 @@
 package udb.m3.clinica.modelo;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="consulta")
 public class Consulta {
@@ -37,9 +38,10 @@ public class Consulta {
 	
 	private String numConsultorio;
 	
-	private LocalDateTime fechaConsulta;
+	private String fechaConsulta;
 	
 	@OneToMany(mappedBy="consulta", cascade= { CascadeType.ALL }, orphanRemoval=true)
+	@JsonManagedReference
 	private List<DetalleConsulta> detalleConsulta;
 	
 	public Consulta() {
@@ -47,7 +49,7 @@ public class Consulta {
 	}
 
 	public Consulta(Integer idConsulta, Paciente paciente, Medico medico, Especialidad especialidad,
-			String numConsultorio, LocalDateTime fechaConsulta, List<DetalleConsulta> detalleConsulta) {
+			String numConsultorio, String fechaConsulta, List<DetalleConsulta> detalleConsulta) {
 		super();
 		this.idConsulta = idConsulta;
 		this.paciente = paciente;
@@ -98,11 +100,11 @@ public class Consulta {
 		this.numConsultorio = numConsultorio;
 	}
 
-	public LocalDateTime getFechaConsulta() {
+	public String getFechaConsulta() {
 		return fechaConsulta;
 	}
 
-	public void setFechaConsulta(LocalDateTime fechaConsulta) {
+	public void setFechaConsulta(String fechaConsulta) {
 		this.fechaConsulta = fechaConsulta;
 	}
 
@@ -113,7 +115,14 @@ public class Consulta {
 	public void setDetalleConsulta(List<DetalleConsulta> detalleConsulta) {
 		this.detalleConsulta = detalleConsulta;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Consulta [idConsulta=" + idConsulta + ", paciente=" + paciente + ", medico=" + medico
+				+ ", especialidad=" + especialidad + ", numConsultorio=" + numConsultorio + ", fechaConsulta="
+				+ fechaConsulta + ", detalleConsulta=" + detalleConsulta + "]";
+	}
+
 	
 	
 	
